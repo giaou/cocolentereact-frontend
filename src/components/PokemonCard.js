@@ -15,27 +15,32 @@ function PokemonCard() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+      try {
+        // Parse the string to an object
+        const jsonObject = JSON.parse(message);
+        //console.log(jsonString);
+        // Set data to state
+        console.log(jsonObject);
+        setPokemon(jsonObject);
+        console.log(pokemon);
+      } catch (error) {
+        console.error("Invalid JSON string:", error);
+      }
+  }, [message]);
 
-  console.log("msg"+message);
 
-  useEffect(() => {
-    // Plain string that looks like JSON
-    const jsonString = '{ "name": "bulbasaur", "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/3.png" }';
+  
 
-    try {
-      // Parse the string to an object
-      const jsonObject = JSON.parse(jsonString);
-      console.log(jsonString)
-      // Set data to state
-      setPokemon(jsonObject);
-    } catch (error) {
-      console.error("Invalid JSON string:", error);
-    }
-  }, []);
 
   return (
+    <>
+    <form>
+      <label>Pokemon name</label>
+      <input type="text" placeholder="type a pokemon name..."/>
+      <button>Add</button>
+    </form>
     <div className="container">
+    
       <img src={pokemon.image} className="pokemon-image" alt={pokemon.name} />
       <div className="details">
         <p className="pokemon-name">{pokemon.name}</p>
@@ -43,6 +48,8 @@ function PokemonCard() {
         <p className="pokemon-ability">Ability: Generate Electricity</p>
       </div>
     </div>
+    </>
+    
   );
 }
 
